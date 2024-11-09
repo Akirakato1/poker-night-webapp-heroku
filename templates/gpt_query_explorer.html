@@ -1,1 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Table</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        .dropdown-content {
+            display: none;
+            padding: 5px;
+            margin-top: 5px;
+            background-color: #f1f1f1;
+            border: 1px solid #ddd;
+            white-space: pre-wrap;
+        }
+        .dropdown-active .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
 
+<h2>Documents Table</h2>
+<table>
+    <tr>
+        <th>ID</th>
+        <th>Query</th>
+    </tr>
+    {% for doc in data %}
+    <tr class="table-row" onclick="toggleDropdown(this)">
+        <td>{{ doc['id'] }}</td>
+        <td>
+            {{ doc['query'] }}
+            <div class="dropdown-content">
+                <strong>Script:</strong> {{ doc['script'] }}
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<script>
+    function toggleDropdown(row) {
+        // Toggle the 'dropdown-active' class on the clicked row to show/hide the script
+        row.classList.toggle("dropdown-active");
+    }
+</script>
+
+</body>
+</html>
