@@ -9,6 +9,6 @@ db=DBManager()
 def inspect_data():
     try:
         data=db.pull_table_data(db.gpt_query_table_name)
-        return jsonify(data)
+        return render_template("gpt_query_explorer.html", data=data)
     except Exception as e:
         return jsonify({"error": str(e)}), 500
