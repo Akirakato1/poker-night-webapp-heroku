@@ -29,3 +29,5 @@ def process_query(doc):
         "content": content,
         "script": "\n"+doc['script']
     }
+
+db.keep_alive_rethinkdb()
