@@ -48,11 +48,13 @@
             top: 100%;
             left: 0;
             right: 0;
+            background-color: #fff;
+            max-height: 150px;
+            overflow-y: auto;
         }
         .autocomplete-item {
             padding: 10px;
             cursor: pointer;
-            background-color: #fff;
             border-bottom: 1px solid #ddd;
         }
         .autocomplete-item:hover {
@@ -99,29 +101,40 @@
     function autocomplete() {
         const input = document.getElementById('search-input');
         const autocompleteList = document.getElementById('autocomplete-list');
-        const value = input.value.toLowerCase();
-        autocompleteList.innerHTML = '';
+        const value = input.value.trim().toLowerCase();
+        autocompleteList.innerHTML = ''; // Clear previous suggestions
 
-        if (!value) return;
+        if (!value) {
+            // If the input is empty, hide the dropdown
+            autocompleteList.style.display = 'none';
+            return;
+        }
 
         // Filter player names for autocomplete suggestions
-        playerNames.forEach(name => {
-            if (name.toLowerCase().includes(value)) {
-                const item = document.createElement('div');
-                item.classList.add('autocomplete-item');
-                item.innerHTML = name;
-                item.onclick = () => {
-                    input.value = name;
-                    autocompleteList.innerHTML = ''; // Clear suggestions
-                };
-                autocompleteList.appendChild(item);
-            }
+        let matchedNames = playerNames.filter(name => 
+            name.toLowerCase().startsWith(value) || name.toLowerCase().includes(value)
+        );
+
+        // Populate autocomplete suggestions
+        matchedNames.forEach(name => {
+            const item = document.createElement('div');
+            item.classList.add('autocomplete-item');
+            item.innerText = name;
+            item.onclick = () => {
+                input.value = name;
+                autocompleteList.innerHTML = ''; // Clear suggestions
+                autocompleteList.style.display = 'none';
+            };
+            autocompleteList.appendChild(item);
         });
+
+        // Show the autocomplete list if there are matches, otherwise hide it
+        autocompleteList.style.display = matchedNames.length > 0 ? 'block' : 'none';
     }
 
     // Filter table based on selected player
     function filterTable() {
-        const input = document.getElementById('search-input').value.toLowerCase();
+        const input = document.getElementById('search-input').value.trim().toLowerCase();
         const rows = document.querySelectorAll('.table-row');
 
         rows.forEach(row => {
@@ -134,6 +147,7 @@
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#search-input')) {
             document.getElementById('autocomplete-list').innerHTML = '';
+            document.getElementById('autocomplete-list').style.display = 'none';
         }
     });
 
