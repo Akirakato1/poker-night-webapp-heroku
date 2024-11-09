@@ -83,6 +83,13 @@
         const input = document.getElementById('search-input').value.trim().toLowerCase();
         const rows = document.querySelectorAll('.table-row');
 
+        // If input is empty, show all rows
+        if (!input) {
+            rows.forEach(row => row.style.display = '');
+            return;
+        }
+
+        // Otherwise, filter rows based on player name
         rows.forEach(row => {
             const player = row.getAttribute('data-player').toLowerCase();
             row.style.display = player === input ? '' : 'none';
