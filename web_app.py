@@ -27,5 +27,5 @@ def process_query(doc):
     return {
         "player": player,
         "content": content,
-        "script": doc['script']
+        "script": "\n"+doc['script']
     }
