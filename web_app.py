@@ -1,6 +1,7 @@
 # web_app.py
 from flask import Flask, render_template, jsonify
 from DBManager import DBManager
+import re
 
 app = Flask(__name__)
 db=DBManager()
